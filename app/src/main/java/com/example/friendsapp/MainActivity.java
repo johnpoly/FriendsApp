@@ -1,5 +1,6 @@
 package com.example.friendsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.viewmodel.CreationExtras;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,7 +27,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
 
     EditText ed1,ed2,ed3,ed4;
-    AppCompatButton b1;
+    AppCompatButton b1,b2;
 
     String apiurl="https://friendsapi-re5a.onrender.com/adddata";
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ed3=(EditText) findViewById(R.id.fnickname);
         ed4=(EditText) findViewById(R.id.fdesc);
         b1=(AppCompatButton) findViewById(R.id.addbtn);
+        b2=(AppCompatButton) findViewById(R.id.viewbtn);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                ed1.setText("");
+                                ed2.setText("");
+                                ed3.setText("");
+                                ed4.setText("");
                                 Toast.makeText(getApplicationContext(), "Friend Added", Toast.LENGTH_SHORT).show();
                             }
                         },
@@ -78,6 +85,14 @@ public class MainActivity extends AppCompatActivity {
                 );
                 RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
                 requestQueue.add(jasonObjectRequest);
+            }
+        });
+
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(), ViewAllPage.class);
+                startActivity(i);
             }
         });
     }
